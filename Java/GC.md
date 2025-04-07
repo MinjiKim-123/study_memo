@@ -2,7 +2,34 @@
   사용하지 않는 동적 객체를 정리해주며, 메모리를 효율적으로 관리할 수 있도록 도와주는 역할을 해주는 시스템 구성 요소. <br/>
   가비지 컬렉션은 위 작업의 프로세스(기술)을 뜻하는 것. <strong>가비지 컬렉션 != 가비지 컬렉터</strong>
 
-## 종류
+# 목차
+- [Heap 메모리 구조](#heap-메모리-구조)
+- [GC 종류](#gc-종류)
+  
+## Heap 메모리 구조
+<img src="https://github.com/user-attachments/assets/f0edda1d-ea33-46ac-b66d-70046bcf5b50" alt="힙메모리구조" height="150px"/>
+
+### Young Generation
+  - Eden : 대 부분의 새로운 객체가 생성되는 곳.
+  - Survivor: Eden에서 살아남은 객체가 이동하는 곳.<br/>
+    2개의 영역이 존재하며, 두 개 중 한 영역은 항상 비어있음(Survivor 내의 객체들을 이동시키면서 메모리 파편화 문제를 해결 시킴).
+- **Minor GC 과정**
+  1. Eden영역이 가득 차면 Minor GC 실행.
+  2. Reachable객체 식별 **(Mark)** 및 UnReachable 객체는 메모리 해제 **(Sweep)**. 
+  3. Reachable 객체를 Survivor 영역으로 이동 및 age 값을 +처리. (Survivor영역의 
+  4. Eden 영역 초기화.
+  5. 위 과정을 반복하며 Survivor 내 객체의 age가 특정 값에 도달할 경우 old영역으로 객체 이동.
+ 
+### Old Generation
+ 오래 살아남은 객체가 존재하는 곳. 해당 영역에서 Major GC가 실행. <br/>
+ Minor GC처럼 자주 실행 되지는 않지만 실행 속도가 느리며, 많은 비용이 듬. 
+
+ ### MetaSpace(Permanent Generation)
+ 런타임에 클래스로더가 로드한 클래스, 메소드 등의 메타데이터가 저장되는 곳.
+ 
+<br/>
+ 
+## GC 종류
 1. Serial GC <br/>
    싱글 코어 환경에서 사용하기 위한 가장 단순한 방식의 GC.<br/>
    CPU 메모리가 적고 하드웨어 성능이 낮은 환경에서 사용.<br/>
