@@ -26,7 +26,16 @@
 
  ### MetaSpace(Permanent Generation)
  런타임에 클래스로더가 로드한 클래스, 메소드 등의 메타데이터가 저장되는 곳.
+
+ ### MARK-SUMMARY-COMPACT
+ - mark(마킹): 사용하는 객체와 사용하지 않는 객체(정리가 필요한)를 구분하고 사용 객체에 마킹. 이 과정에서 STW가 발생할 수 있음.
+ - summary(요약): 여러 스레드가 old 영역을 분리하여 탐색하며, <br/> 마킹 정보를 기반으로 메모리 사용 상태 요약 및 메모리의 압축을 효율적으로 수행하기 위해 필요한 정보를 수집.
+ - compact(압축): 마킹 객체를 한 쪽으로 정리하여 메모리 정리 -> 메모리 단편화 해결. <br/> 이 과정에서 STW가 발생할 수 있음.
+   
+### MARK-SWEEP-COMPACT (위 알고리즘과 요약 과정 단계만 다른 알고리즘.)
+  - sweep: 
  
+   
 <br/>
  
 ## GC 종류
@@ -53,7 +62,12 @@
       GC 정리로 인해 없는 객체에 접근해서 발생하는 오류라던가,<br/>
       객체 이동으로 인해 예상한 객체가 아닌 다른 객체에 대한 참조를 한다던가 같은..?
   
-
-
 2. Parallel GC <br/>
+   Serial GC와 기본적인 처리 알고리즘은 동일. Minor GC 진행시 멀티쓰레드를 사용.
+   STW시간이 Serial GC에 비해 줄어듬. Major GC(Full GC 또는 Old Generation의 GC)는 여전히 단일 쓰레드로 진행함.
+
+3. Parallel Old GC<br/>
+   Parallel GC의 개선 버전. Minor GC뿐만 아니라 Major GC또한 멀티쓰레드로 진행. -> Full GC의 성능 저하↓ <br/>
+   **(Full GC는 old, young 영역이 모두 찼을 때 발생하며, young&old영역을 모두 정리함.)**  <br/>
+   위 두개의 GC와 다르게 old영역에서 mark-summary-compact 알고리즘을 사용.
 
