@@ -18,7 +18,7 @@ LLM API 호출을 추상화한 인터페이스를 제공하여 단순하고 재�
     			.entity(returnType);
     }
 ```
-<sup>*호출 유틸리티 코드 작성 예시</sup>
+<sup>*호출 유틸리티 코드 작성 예시(chatoptions이나 advisor같은 추가 설정은 제외한 기본 설정만 세팅하였음.)</sup>
 
 + 동작방식
 <img src="https://docs.spring.io/spring-ai/reference/_images/chat-options-flow.jpg" width="500px"/>
@@ -43,7 +43,33 @@ LLM API 호출을 추상화한 인터페이스를 제공하여 단순하고 재�
 entity 호출시 내부에서 outputConverter를 미리 설정함.
 
 + OutputConverter
+<br/>LLM출력을 구조화된 형식으로 변환하는데 도움을 주는 변환기. 현재는 아래 5가지를 제공해줌. (spring-ai ver.1.0.0-M6 기준)
+<img src="https://docs.spring.io/spring-ai/reference/_images/structured-output-hierarchy4.jpg" width="500px"/>
+<sup>출처: 공식문서</sup><br/>
+1. AbstractConversionServiceOutputConverter <br>
+2. AbstractMessageOutputConverter <br>
+3. BeanOutputConverter <br>
+4. MapOutputConverter<br>
+5. ListOutputConverter<br>
 
-
+Converter 구현체를 보면 아래와 같이 프롬포트를 설정해서 원하는 형식의 응답을 받고있음.
+ ```
+	/**
+	 * Provides the expected format of the response, instructing that it should adhere to
+	 * the generated JSON schema.
+	 * @return The instruction format string.
+	 */
+	@Override
+	public String getFormat() {
+		String template = """
+				Your response should be in JSON format.
+				...
+				Here is the JSON Schema instance your output must adhere to:
+				```%s```
+				""";
+		return String.format(template, this.jsonSchema);
+	}
+```
+<sup>*BeanOutputConverter class의 getFormat 메소드</sup>
 
   
