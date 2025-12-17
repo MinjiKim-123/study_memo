@@ -47,12 +47,18 @@ entity 호출시 내부에서 outputConverter를 미리 설정함.
 <img src="https://docs.spring.io/spring-ai/reference/_images/structured-output-hierarchy4.jpg" width="500px"/>
 <sup>출처: 공식문서</sup><br/>
 1. AbstractConversionServiceOutputConverter <br>
+LLM 출력 결과를 GenericConversionService를 사용해서 원하는 결과로 convert 할 수 있도록 제공하는 추상클래스.
 2. AbstractMessageOutputConverter <br>
+LLM 출력 결과를 MessageConvert를 사용해서 원하는 결과로 convert 할 수 있도록 제공하는 추상클래스.
 3. BeanOutputConverter <br>
 4. MapOutputConverter<br>
 5. ListOutputConverter<br>
+1번 AbstractConversionServiceOutputConverter 클래스를 확장한 Converter.<br>
+<br>
 
-Converter 구현체를 보면 아래와 같이 프롬포트를 설정해서 원하는 형식의 응답을 받고있음.
+
+Converter 구현체를 보면 아래와 같이 프롬포트를 설정해서 원하는 형식의 응답을 받고있으며,<br>
+각 Converter 형식에 따라 구현된 getFormat의 내용이 다름
  ```
 	/**
 	 * Provides the expected format of the response, instructing that it should adhere to
