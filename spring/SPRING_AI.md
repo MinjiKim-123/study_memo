@@ -51,9 +51,12 @@ LLM 출력 결과를 GenericConversionService를 사용해서 원하는 결과�
 2. AbstractMessageOutputConverter <br>
 LLM 출력 결과를 MessageConvert를 사용해서 원하는 결과로 convert 할 수 있도록 제공하는 추상클래스.
 3. BeanOutputConverter <br>
+지정한 클래스 타입의 객체를 생성하여 응답주는 변환기. 
+정해진 타입을 응답받을 수 있는 MapOutputConverter 또는 ListOutputConverter와 다르게 Map<String, Integer>, List<Dto> 처럼 타입이 지정된 객체 생성이 가능함.
 4. MapOutputConverter<br>
+1번 AbstractConversionServiceOutputConverter 클래스를 확장한 Converter.<br> Map<String,Object> 타입으로 응답을 변환해줌.
 5. ListOutputConverter<br>
-1번 AbstractConversionServiceOutputConverter 클래스를 확장한 Converter.<br>
+1번 AbstractConversionServiceOutputConverter 클래스를 확장한 Converter.<br> List<String> 타입으로 응답을 변환해줌.
 <br>
 
 
