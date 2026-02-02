@@ -38,7 +38,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 ```
 <sub>Spring Data JPA 예시</sub>
 
-Spring Data JPA는 save와 findById같은 기본적인 CRUD는 제공. (SimpleJpaRepository)
+Spring Data JPA는 save와 findById같은 기본적인 CRUD는 제공. (SimpleJpaRepository) <br/>
 추가적인 메소드는 메소드명을 규칙에 맞게 작성하면 메서드 이름을 분석해 JPQL을 자동 생성.
 
 ### 영속성 컨텍스트
